@@ -25,8 +25,10 @@ public class TableroO extends JPanel implements ActionListener, KeyListener{
     private Timer timer; 
     private ArrayList<Circulo> circulo;
     private ArrayList<Dulce> dulce;
+    private ArrayList<Trans> trans;
     private Carro personajePrincipal;
     private Sound sonido;
+    private int colisiones = 0;
     private int puntaje = 0;
     int cuadro=136;
     int c=68;
@@ -47,24 +49,34 @@ public class TableroO extends JPanel implements ActionListener, KeyListener{
       
       this.circulo = new ArrayList<Circulo>();
       this.dulce = new ArrayList<Dulce>();
+      this.trans = new ArrayList<Trans>();
       ///-------------------------------------sube----------------
-      this.circulo.add(new Circulo(352,264));
-      this.circulo.add(new Circulo(420,196));
-      this.circulo.add(new Circulo(488,128));
+      this.circulo.add(new Circulo(284,196));
+      this.circulo.add(new Circulo(352,128));
+      this.circulo.add(new Circulo(488,60));
       //---------------------------------------baja-------------
-      this.circulo.add(new Circulo(556,128));
-      this.circulo.add(new Circulo(624,196));
-      this.circulo.add(new Circulo(692,264));
+      this.circulo.add(new Circulo(556,60));
+      this.circulo.add(new Circulo(624,60));
+      this.circulo.add(new Circulo(692,128));
+      this.circulo.add(new Circulo(760,196));
       //---------------------------------------lineabajo-------------
-      this.circulo.add(new Circulo(284,400));
-      this.circulo.add(new Circulo(352,468));
-      this.circulo.add(new Circulo(420,536));
-      this.circulo.add(new Circulo(488,604));     
+      this.circulo.add(new Circulo(216,400));
+      this.circulo.add(new Circulo(284,468));
+      this.circulo.add(new Circulo(352,536));
+      this.circulo.add(new Circulo(420,604));
+      this.circulo.add(new Circulo(488,604));
       //---------------------------------------lineabajo2-------------
-      this.circulo.add(new Circulo(760,400));
-      this.circulo.add(new Circulo(692,468));
-      this.circulo.add(new Circulo(624,536));
-      this.circulo.add(new Circulo(556,604));      
+      this.circulo.add(new Circulo(828,400));
+      this.circulo.add(new Circulo(760,468));
+      this.circulo.add(new Circulo(692,536));
+      this.circulo.add(new Circulo(624,604));
+      this.circulo.add(new Circulo(556,604));
+      //-----------------------------------------dulces----------
+      this.dulce.add(new Dulce(488,-8));
+      this.dulce.add(new Dulce(216,332));
+      this.dulce.add(new Dulce(692,468));
+      //-----------------------------------------trans-----------
+      this.trans.add(new Trans(828,264));
 
       
       this.timer = new Timer(50, this);
@@ -75,13 +87,17 @@ public class TableroO extends JPanel implements ActionListener, KeyListener{
     protected void paintComponent(Graphics g) {
          super.paintComponent(g);
          //omagen---------
-         
-       
-         
+    
          Image fondo = loadImage("fondoVacio.png");//omagen---------
         g.drawImage(fondo, 0, 0, null);
          for(Circulo c: this.circulo)
             c.dibujar(g,this);
+         
+         for(Dulce d: this.dulce)
+            d.dibujar(g,this);
+         
+         for(Trans t: this.trans)
+            t.dibujar(g,this);
          
          this.personajePrincipal.dibujar(g,this);
          g.drawString("Puntaje " + puntaje, 40, 40);
@@ -92,6 +108,8 @@ public class TableroO extends JPanel implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         validarColisiones();
+        validarDulces();
+        validarTrans();
          for(Circulo c: this.circulo)
           //  c.mover();
             repaint();
@@ -107,12 +125,38 @@ public class TableroO extends JPanel implements ActionListener, KeyListener{
            Rectangle RecCir = c.obtenerRectangulo();
            if(recPersonaje.intersects(RecCir)){
                copia.remove(c);
-               this.puntaje++;
+               this.colisiones++;
            }
            this.circulo=copia;   
            
         }
     }
+    public void validarDulces(){
+        Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
+        ArrayList<Dulce> copiad = (ArrayList<Dulce>) this.dulce.clone();
+        for(Dulce d : dulce){
+           Rectangle RecDul = d.obtenerRectangulo();
+           if(recPersonaje.intersects(RecDul)){
+               copiad.remove(d);
+               this.puntaje++;
+           }
+           this.dulce=copiad;   
+           
+        }
+}
+public void validarTrans(){
+        Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
+        ArrayList<Trans> copiat = (ArrayList<Trans>) this.trans.clone();
+        for(Trans t : trans){
+           Rectangle RecCir = t.obtenerRectangulo();
+           if(recPersonaje.intersects(RecCir)){
+               this.personajePrincipal.setX(760);
+               this.personajePrincipal.setY(128);
+           }
+           this.trans=copiat;   
+           
+        }
+}
 
     @Override
     public void keyTyped(KeyEvent e) {

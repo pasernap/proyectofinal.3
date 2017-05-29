@@ -17,7 +17,7 @@ public class Sound {
 	
 	public Sound (String fileName) {
 		try {
-                    url = new URL("file:Underwater.wav");
+                    url = new URL("file:melanie.wav");
                    clip = Applet.newAudioClip(url);
                  
 		} catch (Exception e) {

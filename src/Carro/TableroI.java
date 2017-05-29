@@ -28,6 +28,7 @@ public class TableroI extends JPanel implements ActionListener, KeyListener{
     private Carro personajePrincipal;
     private Sound sonido;
     private int puntaje = 0;
+    private int colisiones = 0;
     int cuadro=136;
     int c=68;
     protected boolean colision=false;
@@ -85,6 +86,10 @@ public class TableroI extends JPanel implements ActionListener, KeyListener{
       this.circulo.add(new Circulo(556,406));
       this.circulo.add(new Circulo(556,474));
       this.circulo.add(new Circulo(556,542));
+      //-----------------------------------------dulces----------
+      this.dulce.add(new Dulce(216,-2));
+      this.dulce.add(new Dulce(216,604));
+      this.dulce.add(new Dulce(760,604));
       
       this.timer = new Timer(50, this);
       //this.sonido.loop();
@@ -102,6 +107,9 @@ public class TableroI extends JPanel implements ActionListener, KeyListener{
          for(Circulo c: this.circulo)
             c.dibujar(g,this);
          
+         for(Dulce d: this.dulce)
+            d.dibujar(g,this);
+         
          this.personajePrincipal.dibujar(g,this);
          g.drawString("Puntaje " + puntaje, 40, 40);
          
@@ -111,6 +119,7 @@ public class TableroI extends JPanel implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         validarColisiones();
+        validarDulces();
          for(Circulo c: this.circulo)
          //   c.mover();
             repaint();
@@ -126,9 +135,22 @@ public class TableroI extends JPanel implements ActionListener, KeyListener{
            Rectangle RecCir = c.obtenerRectangulo();
            if(recPersonaje.intersects(RecCir)){
                copia.remove(c);
-               this.puntaje++;
+               this.colisiones++;
            }
            this.circulo=copia;   
+           
+        }
+    }
+    public void validarDulces(){
+        Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
+        ArrayList<Dulce> copiad = (ArrayList<Dulce>) this.dulce.clone();
+        for(Dulce d : dulce){
+           Rectangle RecDul = d.obtenerRectangulo();
+           if(recPersonaje.intersects(RecDul)){
+               copiad.remove(d);
+               this.puntaje++;
+           }
+           this.dulce=copiad;   
            
         }
     }

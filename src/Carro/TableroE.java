@@ -29,6 +29,7 @@ public class TableroE extends JPanel implements ActionListener, KeyListener{
     private Carro personajePrincipal;
     private Sound sonido;
     private int puntaje = 0;
+    private int colisiones = 0;
     int cuadro=136;
     int c=68;
     protected boolean colision=false;
@@ -86,6 +87,12 @@ public class TableroE extends JPanel implements ActionListener, KeyListener{
       this.circulo.add(new Circulo(284,406));
       this.circulo.add(new Circulo(284,474));
       this.circulo.add(new Circulo(284,542));
+      //-----------------------------------------dulces----------
+      this.dulce.add(new Dulce(284,-2));
+      this.dulce.add(new Dulce(284,604));
+      this.dulce.add(new Dulce(624,264));
+      //-----------------------------------------trans-----------
+      this.trans.add(new Trans(1100,672));
       
       this.timer = new Timer(50, this);
       //this.sonido.loop();
@@ -115,6 +122,8 @@ public class TableroE extends JPanel implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         validarColisiones();
+        validarDulces();
+        validarTrans();
          for(Circulo c: this.circulo)
            // c.mover();
             repaint();
@@ -130,12 +139,39 @@ public class TableroE extends JPanel implements ActionListener, KeyListener{
            Rectangle RecCir = c.obtenerRectangulo();
            if(recPersonaje.intersects(RecCir)){
                copia.remove(c);
-               this.puntaje++;
+               this.colisiones++;
            }
            this.circulo=copia;   
            
         }
     }
+    
+    public void validarDulces(){
+        Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
+        ArrayList<Dulce> copiad = (ArrayList<Dulce>) this.dulce.clone();
+        for(Dulce d : dulce){
+           Rectangle RecDul = d.obtenerRectangulo();
+           if(recPersonaje.intersects(RecDul)){
+               copiad.remove(d);
+               this.puntaje++;
+           }
+           this.dulce=copiad;   
+           
+        }
+}
+public void validarTrans(){
+        Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
+        ArrayList<Trans> copiat = (ArrayList<Trans>) this.trans.clone();
+        for(Trans t : trans){
+           Rectangle RecCir = t.obtenerRectangulo();
+           if(recPersonaje.intersects(RecCir)){
+               this.personajePrincipal.setX(488);
+               this.personajePrincipal.setY(264);
+            }
+           this.trans=copiat;   
+           
+        }
+}
 
     @Override
     public void keyTyped(KeyEvent e) {

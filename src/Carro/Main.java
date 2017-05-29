@@ -18,9 +18,10 @@ public class Main {
         JFrame frame = new JFrame();
         frame.setSize(new Dimension(1200,800));
         //frame.add(new TableroA());//adicionando el panel
-        frame.add(new TableroE());//adicionando el panel
+        //frame.add(new TableroE());//adicionando el panel
         //frame.add(new TableroI());//adicionando el panel
         //frame.add(new TableroO());//adicionando el panel
+        frame.add(new TableroU());//adicionando el panel
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         
