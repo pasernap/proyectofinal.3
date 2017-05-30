@@ -97,7 +97,7 @@ public class TableroU extends JPanel implements ActionListener, KeyListener{
          
        
          
-         Image fondo = loadImage("fondoVacio.png");//omagen---------
+         Image fondo = loadImage("prueba2.jpg");//omagen---------
         g.drawImage(fondo, 0, 0, null);
          for(Circulo c: this.circulo)
             c.dibujar(g,this);
@@ -117,6 +117,8 @@ public class TableroU extends JPanel implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         validarColisiones();
+        validarColisionesY();
+    //    validarCrearcopia();
         validarDulces();
         validarTrans();
          for(Circulo c: this.circulo)
@@ -134,19 +136,36 @@ public class TableroU extends JPanel implements ActionListener, KeyListener{
            Rectangle Rec = c.obtenerRectangulo();
            
            if(recPersonaje.intersects(Rec)){
-               
                if(recPersonaje.getX()<=Rec.getX()){
-           this.personajePrincipal.setX(this.personajePrincipal.getX()-68);
+           this.personajePrincipal.setX(this.personajePrincipal.getX()-10);
+           } else if(Rec.getX()<recPersonaje.getX()){
+               this.personajePrincipal.setX(this.personajePrincipal.getX()+10);
+           }/* else if(recPersonaje.getY()<=Rec.getY()){
+           this.personajePrincipal.setY(this.personajePrincipal.getY()-34);
+           }else if(Rec.getY()<recPersonaje.getY()){
+               this.personajePrincipal.setY(this.personajePrincipal.getY()+34);
+           }*/  
+              this.colisiones++;
            }
-               else if(Rec.getX()<recPersonaje.getX()){
-               this.personajePrincipal.setX(this.personajePrincipal.getX()+68);
-           }
-               else if(recPersonaje.getY()<=Rec.getY()){
-           this.personajePrincipal.setY(this.personajePrincipal.getY()-68);
-           }
-               else if(Rec.getY()<recPersonaje.getY()){
-               this.personajePrincipal.setY(this.personajePrincipal.getY()+68);
-           }
+           this.circulo=copia;
+       
+        }
+
+    }
+    
+    public void validarColisionesY(){
+        
+        Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
+        ArrayList<Circulo> copia = (ArrayList<Circulo>) this.circulo.clone();
+        for(Circulo c : circulo){
+           Rectangle Rec = c.obtenerRectangulo();
+           
+           if(recPersonaje.intersects(Rec)){
+               if(recPersonaje.getY()<=Rec.getY()){
+           this.personajePrincipal.setY(this.personajePrincipal.getY()-10);
+           }else if(Rec.getY()<recPersonaje.getY()){
+               this.personajePrincipal.setY(this.personajePrincipal.getY()+10);
+           } 
               this.colisiones++;
            }
            this.circulo=copia;
@@ -161,12 +180,25 @@ public class TableroU extends JPanel implements ActionListener, KeyListener{
            Rectangle RecDul = d.obtenerRectangulo();
            if(recPersonaje.intersects(RecDul)){
                copiad.remove(d);
-               this.puntaje++;
+               this.puntaje++;             
            }
            this.dulce=copiad;   
            
         }
 }
+       
+      /* public void validarCrearcopia(){
+        Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
+        ArrayList<Dulce> copiad = (ArrayList<Dulce>) this.dulce.clone();
+        for(Dulce d : dulce){
+           Rectangle RecDul = d.obtenerRectangulo();
+           if(recPersonaje.intersects(RecDul)){
+               this.dulce.add(new Dulce((68*2)*puntaje,5));     
+           }
+           this.dulce=copiad;   
+           
+        }
+}*/
        public void validarTrans(){
         Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
         ArrayList<Trans> copiat = (ArrayList<Trans>) this.trans.clone();

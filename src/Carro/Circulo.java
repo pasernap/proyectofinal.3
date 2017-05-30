@@ -28,10 +28,10 @@ public class Circulo {
          this.tileset = loadImage("ground_singlerec.png");
     }
     
-    public Circulo(){
-       this.x=68;
-       this.y=68;
-    }
+  /*  public Circulo(){
+      // this.x=0;
+       //this.y=0;
+    }*/
     
     public void dibujar(Graphics g, JPanel panel){
        g.setColor(Color.red);

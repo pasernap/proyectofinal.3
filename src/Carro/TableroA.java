@@ -92,7 +92,7 @@ public class TableroA extends JPanel implements ActionListener, KeyListener{
          super.paintComponent(g);
          //omagen---------
          
-         Image fondo = loadImage("VOCAL A1.png");//omagen---------
+         Image fondo = loadImage("prueba2.jpg");//omagen---------
         g.drawImage(fondo, 0, 0, null);
         //Image fondo2 = loadImage("gif.gif");//omagen---------
         //g.drawImage(fondo2, 0, 0, null);
@@ -116,6 +116,7 @@ public class TableroA extends JPanel implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         validarColisiones();
+        validarColisionesY();
         validarDulces();
         validarTrans();
          for(Circulo c: this.circulo)
@@ -126,17 +127,50 @@ public class TableroA extends JPanel implements ActionListener, KeyListener{
      
     
     public void validarColisiones(){
+        
         Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
         ArrayList<Circulo> copia = (ArrayList<Circulo>) this.circulo.clone();
         for(Circulo c : circulo){
-           Rectangle RecCir = c.obtenerRectangulo();
-           if(recPersonaje.intersects(RecCir)){
-               copia.remove(c);
-               this.colisiones++;
-           }
-           this.circulo=copia;   
+           Rectangle Rec = c.obtenerRectangulo();
            
+           if(recPersonaje.intersects(Rec)){
+               if(recPersonaje.getX()<=Rec.getX()){
+           this.personajePrincipal.setX(this.personajePrincipal.getX()-10);
+           } else if(Rec.getX()<recPersonaje.getX()){
+               this.personajePrincipal.setX(this.personajePrincipal.getX()+10);
+           }/* else if(recPersonaje.getY()<=Rec.getY()){
+           this.personajePrincipal.setY(this.personajePrincipal.getY()-34);
+           }else if(Rec.getY()<recPersonaje.getY()){
+               this.personajePrincipal.setY(this.personajePrincipal.getY()+34);
+           }*/  
+              this.colisiones++;
+           }
+           this.circulo=copia;
+       
         }
+
+    }
+    
+    public void validarColisionesY(){
+        
+        Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
+        ArrayList<Circulo> copia = (ArrayList<Circulo>) this.circulo.clone();
+        for(Circulo c : circulo){
+           Rectangle Rec = c.obtenerRectangulo();
+           
+           if(recPersonaje.intersects(Rec)){
+               if(recPersonaje.getY()<=Rec.getY()){
+           this.personajePrincipal.setY(this.personajePrincipal.getY()-15);
+           }else if(Rec.getY()<recPersonaje.getY()){
+               this.personajePrincipal.setY(this.personajePrincipal.getY()+10);
+           } 
+              this.colisiones++;
+           }
+           this.circulo=copia;
+       
+        }
+
+    }
     
         /*Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
         ArrayList<Circulo> copia = (ArrayList<Circulo>) this.circulo.clone();
@@ -154,7 +188,7 @@ public class TableroA extends JPanel implements ActionListener, KeyListener{
            }
               
            this.puntaje=0;*/
-    }
+    
 public void validarDulces(){
         Rectangle recPersonaje= this.personajePrincipal.obtenerRectangulo();
         ArrayList<Dulce> copiad = (ArrayList<Dulce>) this.dulce.clone();

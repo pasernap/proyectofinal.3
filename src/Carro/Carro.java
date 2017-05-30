@@ -32,7 +32,7 @@ public class Carro {
     public Carro(int x, int y) {
         this.x = x;
         this.y = y;
-        this.tileset = loadImage("free_radical_game_sprites.png");
+        this.tileset = loadImage("characborrador.png");
     }
 
     public Image getTileset() {
@@ -58,7 +58,8 @@ public class Carro {
     }
     public void dibujar(Graphics g, JPanel panel){
        g.setColor(Color.red);
-       g.drawImage(tileset, x, y, x+32, y+32, 32, 32, 64, 64, panel);
+       g.drawImage(tileset, x, y, null);
+      // g.drawImage(tileset, x, y, x+32, y+32, 32, 32, 64, 64, panel);
     }
     
     
@@ -84,6 +85,6 @@ public class Carro {
     }
     
      public Rectangle obtenerRectangulo(){
-       return new Rectangle(x, y, 20, 20);
+       return new Rectangle(x, y, 68, 68);
     }
 }
